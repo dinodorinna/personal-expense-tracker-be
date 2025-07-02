@@ -14,6 +14,7 @@ func main() {
 
 	r.GET("/transactions", handler.GetTransactionsHandler)
 	r.POST("/transaction", handler.CreateTransactionHandler)
+	r.DELETE("/delete/:id", handler.DeleteTransactionHanler)
 
 	r.Run()
 }

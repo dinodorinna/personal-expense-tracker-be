@@ -11,11 +11,26 @@ func FindAllTransactionByDate(ctx context.Context, date time.Time, limit int, pa
 	if result.Error != nil {
 		return nil, result.Error
 	}
-
 	return transactions, nil
 }
 
 func SaveTransaction(ctx context.Context, transaction *Transactions) error {
 	result := DB.WithContext(ctx).Save(&transaction)
 	return result.Error
+}
+
+func DeleteTransaction(ctx context.Context, id uint) error {
+	result := DB.WithContext(ctx).Delete(&Transactions{}, id)
+	return result.Error
+
+}
+
+func FindTransactionByID(ctx context.Context, id uint) (*Transactions, error) {
+	var transactions Transactions
+	result := DB.WithContext(ctx).First(&transactions, id)
+	if result.Error != nil {
+		return nil, result.Error
+
+	}
+	return &transactions, nil
 }

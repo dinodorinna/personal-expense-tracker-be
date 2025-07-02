@@ -16,7 +16,6 @@ type GetTransactionsHandlerRequest struct {
 }
 
 func GetTransactionsHandler(ctx *gin.Context) {
-
 	var input GetTransactionsHandlerRequest
 
 	err := ctx.ShouldBindQuery(&input)
@@ -36,7 +35,6 @@ func GetTransactionsHandler(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{"data": result})
-
 }
 
 type Category string
@@ -66,7 +64,6 @@ func ValidateCategory(category Category) error {
 }
 
 func CreateTransactionHandler(ctx *gin.Context) {
-
 	var transactionInput CreateTransactionHandlerRequest
 
 	err := ctx.BindJSON(&transactionInput)
@@ -79,12 +76,10 @@ func CreateTransactionHandler(ctx *gin.Context) {
 
 	err = ValidateCategory(transactionInput.Category)
 	if err != nil {
-
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
 		return
-
 	}
 
 	transaction := repo.Transactions{
@@ -101,6 +96,40 @@ func CreateTransactionHandler(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": transaction})
 
+	ctx.JSON(http.StatusOK, gin.H{"data": transaction})
+}
+
+type DeleteTransactionHanlerRequest struct {
+	ID uint `uri:"id"`
+}
+
+func DeleteTransactionHanler(ctx *gin.Context) {
+	var req DeleteTransactionHanlerRequest
+
+	err := ctx.BindUri(&req)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	_, err = repo.FindTransactionByID(ctx, req.ID)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	err = repo.DeleteTransaction(ctx, req.ID)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	ctx.Status(http.StatusNoContent)
 }
