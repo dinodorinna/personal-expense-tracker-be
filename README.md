@@ -14,9 +14,9 @@ A REST API backend service for tracking personal expenses built with Go, Gin fra
 
 ### CRUD Operations
 
-- [ ] Implement request body parsing for POST /transaction endpoint
-- [ ] Implement PUT /transaction/:id endpoint (update transaction)
-- [ ] Implement DELETE /transaction/:id endpoint (delete transaction)
+- [x] Implement GET /transactions
+- [x] Implement request body parsing for POST /transaction endpoint
+- [x] Implement DELETE /delete/:id endpoint (delete transaction)
 - [ ] Add GET /transaction/:id endpoint (get single transaction)
 
 ### Reporting Features
