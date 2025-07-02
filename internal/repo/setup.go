@@ -10,7 +10,7 @@ import (
 type Transactions struct {
 	ID          uint      `json:"id" gorm:"primaryKey"`
 	Date        time.Time `json:"date" gorm:"index"`
-	Description string    `json:"description"`
+	Description string    `json:"description" gorm:"type:varchar(50)"`
 	Amount      float64   `json:"amount"`
 	Category    string    `json:"category"`
 }
